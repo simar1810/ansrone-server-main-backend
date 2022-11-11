@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend for AnsrCoach",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chirag1910/ansrone_website_extra.git"
+  },
+  "author": "AnsrOne",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chirag1910/ansrone_website_extra/issues"
+  },
+  "homepage": "https://github.com/chirag1910/ansrone_website_extra#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.2",
+    "nodemon": "^2.0.20",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0"
+  }
+}
