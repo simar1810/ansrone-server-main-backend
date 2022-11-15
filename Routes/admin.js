@@ -5,19 +5,19 @@ const {
     loginValidator,
     resetPasswordInitValidator,
     resetPasswordValidator,
-} = require("../Validators/user");
+} = require("../Validators/admin");
 const {
     signup,
     login,
     logout,
     resetPasswordInit,
     resetPassword,
-} = require("../Controllers/user");
-const { userAuth } = require("../Middlewares/auth");
+} = require("../Controllers/admin");
+const { adminAuth } = require("../Middlewares/auth");
 
 router.post("/signup/local", signupValidator, signup);
 router.post("/login/local", loginValidator, login);
-router.post("/logout/local", userAuth, logout);
+router.post("/logout/local", adminAuth, logout);
 router.post(
     "/reset/password/init",
     resetPasswordInitValidator,

@@ -11,8 +11,10 @@ app.use(cookieParser());
 dotenvConfig();
 
 const userRoutes = require("./Routes/user");
+const adminRoutes = require("./Routes/admin");
 
 app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
