@@ -1,6 +1,8 @@
 const User = require("../Models/user");
 const argon2 = require("argon2");
 const jwtGenerator = require("../Utils/jwtGenerator");
+const otpGenerator = require("../Utils/otpGenerator");
+const otpMailer = require("../Utils/otpMailer");
 
 const signup = async (req, res) => {
     const { sName, gName, gMobile, gEmail, sClass, password } = req.body;
@@ -48,8 +50,8 @@ const signup = async (req, res) => {
                 token,
             });
         }
-    } catch (e) {
-        return res.json({ success: false, error: e });
+    } catch (error) {
+        return res.json({ success: false, error });
     }
 };
 
@@ -82,7 +84,7 @@ const login = async (req, res) => {
             });
         }
     } catch (error) {
-        return res.json({ success: false, error: e });
+        return res.json({ success: false, error });
     }
 };
 
@@ -100,8 +102,89 @@ const logout = async (req, res) => {
     });
 };
 
+const resetPasswordInit = async (req, res) => {
+    const { gEmail, gMobile } = req.body;
+
+    try {
+        const user = await User.findOne({ $or: [{ gMobile }, { gEmail }] });
+
+        if (user) {
+            const otp = otpGenerator.generate();
+            const otpExpire = new Date(new Date().getTime() + 30 * 60 * 1000);
+
+            // TODO: add gmail id and app password to .env file
+
+            // if (await otpMailer.send(user.gEmail, otp)) {
+            await user.updateOne({ otp, otpExpire });
+
+            return res.json({
+                success: true,
+                message: "OTP sent",
+            });
+            // } else {
+            //     return res.json({
+            //         success: false,
+            //         error: "OTP not sent",
+            //     });
+            // }
+        } else {
+            return res.json({
+                success: false,
+                error: "User not found",
+            });
+        }
+    } catch (error) {
+        return res.json({ success: false, error });
+    }
+};
+
+const resetPassword = async (req, res) => {
+    const { gEmail, gMobile, otp, password } = req.body;
+
+    try {
+        const user = await User.findOne({ $or: [{ gMobile }, { gEmail }] });
+
+        if (user) {
+            if (user.otp == otp) {
+                if (user.otpExpire >= new Date()) {
+                    const hashedPassword = await argon2.hash(password);
+
+                    await user.updateOne({
+                        password: hashedPassword,
+                        otpExpire: new Date(new Date().getTime() - 1000),
+                    });
+
+                    return res.json({
+                        success: true,
+                        message: "Password changed",
+                    });
+                } else {
+                    return res.json({
+                        success: false,
+                        error: "OTP expired",
+                    });
+                }
+            } else {
+                return res.json({
+                    success: false,
+                    error: "Invalid OTP",
+                });
+            }
+        } else {
+            return res.json({
+                success: false,
+                error: "User not found",
+            });
+        }
+    } catch (error) {
+        return res.json({ success: false, error });
+    }
+};
+
 module.exports = {
     signup,
     login,
     logout,
+    resetPasswordInit,
+    resetPassword,
 };
