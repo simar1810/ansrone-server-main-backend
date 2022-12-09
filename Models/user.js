@@ -1,23 +1,18 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    sName: {
+    name: {
         type: String,
         required: true,
     },
-    gName: {
-        type: String,
-        required: true,
-    },
-    gMobile: {
+    mobile: {
         type: Number,
         required: true,
         unique: true,
     },
-    gEmail: {
+    courseType: {
         type: String,
         required: true,
-        unique: true,
     },
     sClass: {
         type: Number,
@@ -29,9 +24,6 @@ const userSchema = new mongoose.Schema({
     },
     otp: {
         type: Number,
-    },
-    otpExpire: {
-        type: Date,
     },
 });
 

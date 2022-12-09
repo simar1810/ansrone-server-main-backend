@@ -1,45 +1,17 @@
 const signupValidator = (req, res, next) => {
-    const { sName, gName, gMobile, gEmail, sClass, password } = req.body;
+    const { registerationId, otp } = req.body;
 
-    if (!sName) {
+    if (!registerationId) {
         return res.json({
             success: false,
-            error: "Student name is required",
+            error: "Registeration ID is required",
         });
     }
 
-    if (!gName) {
+    if (!otp) {
         return res.json({
             success: false,
-            error: "Guardian name is required",
-        });
-    }
-
-    if (!gMobile) {
-        return res.json({
-            success: false,
-            error: "Guardian mobile number is required",
-        });
-    }
-
-    if (!gEmail) {
-        return res.json({
-            success: false,
-            error: "Guardian email is required",
-        });
-    }
-
-    if (!sClass) {
-        return res.json({
-            success: false,
-            error: "Class is required",
-        });
-    }
-
-    if (!password) {
-        return res.json({
-            success: false,
-            error: "Password is required",
+            error: "OTP is required",
         });
     }
 

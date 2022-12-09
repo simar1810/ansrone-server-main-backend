@@ -1,54 +1,58 @@
 const User = require("../Models/user");
+const Register = require("../Models/register");
 const argon2 = require("argon2");
 const jwtGenerator = require("../Utils/jwtGenerator");
 const otpGenerator = require("../Utils/otpGenerator");
 const otpMailer = require("../Utils/otpMailer");
 
 const signup = async (req, res) => {
-    const { sName, gName, gMobile, gEmail, sClass, password } = req.body;
+    const { registerationId, otp } = req.body;
+
+    const user = await Register.findById(registerationId);
 
     try {
-        const user = await User.findOne({ $or: [{ gMobile }, { gEmail }] });
+        if (!user) {
+            return res.json({
+                success: false,
+                error: "User entry not found",
+            });
+        } else {
+            if (user.otp == otp) {
+                const hashedPassword = await argon2.hash(
+                    otpGenerator.generate() + ""
+                );
 
-        if (user) {
-            if (user.gMobile == gMobile) {
+                const sUser = await User.create({
+                    name: user.name,
+                    mobile: user.mobile,
+                    courseType: user.courseType,
+                    sClass: user.sClass,
+                    password: hashedPassword,
+                });
+
+                await Register.deleteOne({ _id: registerationId });
+
+                const token = jwtGenerator.generate(sUser._id);
+
+                res.cookie(process.env.JWT_KEY, token, {
+                    maxAge: process.env.JWT_DURATION * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "none",
+                });
+
                 return res.json({
-                    success: false,
-                    error: "Mobile number already in use",
+                    success: true,
+                    message: "Account created",
+                    _id: sUser._id,
+                    token,
                 });
             } else {
                 return res.json({
                     success: false,
-                    error: "Email address already in use",
+                    error: "Wrong OTP",
                 });
             }
-        } else {
-            const hashedPassword = await argon2.hash(password);
-
-            const user = await User.create({
-                sName,
-                gName,
-                gMobile,
-                gEmail,
-                sClass,
-                password: hashedPassword,
-            });
-
-            const token = jwtGenerator.generate(user._id);
-
-            res.cookie(process.env.JWT_KEY, token, {
-                maxAge: process.env.JWT_DURATION * 24 * 60 * 60 * 1000,
-                httpOnly: true,
-                secure: true,
-                sameSite: "none",
-            });
-
-            return res.json({
-                success: true,
-                message: "Account created",
-                _id: user._id,
-                token,
-            });
         }
     } catch (error) {
         return res.json({ success: false, error });
