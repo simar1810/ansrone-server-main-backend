@@ -18,16 +18,11 @@ const signup = async (req, res) => {
             });
         } else {
             if (user.otp == otp) {
-                const hashedPassword = await argon2.hash(
-                    otpGenerator.generate() + ""
-                );
-
                 const sUser = await User.create({
                     name: user.name,
                     mobile: user.mobile,
                     courseType: user.courseType,
                     sClass: user.sClass,
-                    password: hashedPassword,
                 });
 
                 await Register.deleteOne({ _id: registerationId });
@@ -44,7 +39,13 @@ const signup = async (req, res) => {
                 return res.json({
                     success: true,
                     message: "Account created",
-                    _id: sUser._id,
+                    user: {
+                        _id: sUser._id,
+                        name: sUser.name,
+                        mobile: sUser.mobile,
+                        sClass: sUser.sClass,
+                        courseType: sUser.courseType,
+                    },
                     token,
                 });
             } else {
