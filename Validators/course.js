@@ -1,5 +1,12 @@
 const addValidator = (req, res, next) => {
-    const { name, price, sClass } = req.body;
+    const { type, name, tagline, tagline2, targetClass } = req.body;
+
+    if (type !== "personal" && type !== "cohort") {
+        return res.json({
+            success: false,
+            error: "Course type is required",
+        });
+    }
 
     if (!name) {
         return res.json({
@@ -8,17 +15,24 @@ const addValidator = (req, res, next) => {
         });
     }
 
-    if (!price) {
+    if (!tagline) {
         return res.json({
             success: false,
-            error: "Price is required",
+            error: "Tagline is required",
         });
     }
 
-    if (!sClass) {
+    if (!tagline2) {
         return res.json({
             success: false,
-            error: "Student class is required",
+            error: "Tagline-2 is required",
+        });
+    }
+
+    if (!targetClass) {
+        return res.json({
+            success: false,
+            error: "Target class is required",
         });
     }
 

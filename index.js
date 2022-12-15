@@ -14,10 +14,18 @@ const userRoutes = require("./Routes/user");
 const adminRoutes = require("./Routes/admin");
 const courseRoutes = require("./Routes/course");
 const registerRoute = require("./Routes/register");
+const demoClassRoute = require("./Routes/demoClass");
+const liveClassRoute = require("./Routes/liveClass");
+const courseFeatureRoute = require("./Routes/courseFeature");
+const courseSyllabusRoute = require("./Routes/courseSyllabus");
 
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/course", courseRoutes);
+app.use("/course/price/demo", demoClassRoute);
+app.use("/course/price/live", liveClassRoute);
+app.use("/course/feature", courseFeatureRoute);
+app.use("/course/syllabus", courseSyllabusRoute);
 app.use("/register", registerRoute);
 
 const PORT = process.env.PORT || 7000;

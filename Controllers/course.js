@@ -1,14 +1,15 @@
 const Course = require("../Models/course");
 
 const add = async (req, res) => {
-    const { name, price, description, sClass } = req.body;
+    const { type, name, tagline, tagline2, targetClass } = req.body;
 
     try {
         const course = await Course.create({
+            type,
             name,
-            price,
-            description,
-            sClass,
+            tagline,
+            tagline2,
+            targetClass,
         });
 
         return res.json({

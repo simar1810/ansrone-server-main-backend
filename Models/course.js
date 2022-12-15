@@ -1,19 +1,25 @@
 const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        required: true,
+        enum: ["personal", "cohort"],
+    },
     name: {
         type: String,
         required: true,
     },
-    price: {
-        type: Number,
+    tagline: {
+        type: String,
         required: true,
     },
-    description: {
+    tagline2: {
         type: String,
+        required: true,
     },
-    sClass: {
-        type: Number,
+    targetClass: {
+        type: String,
         required: true,
     },
 });
