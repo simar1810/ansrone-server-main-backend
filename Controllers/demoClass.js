@@ -33,6 +33,23 @@ const add = async (req, res) => {
     }
 };
 
+const get = async (req, res) => {
+    const { courseId } = req.params;
+
+    try {
+        const demoClasses = await DemoClass.find({ courseId });
+
+        return res.json({
+            success: true,
+            message: "Demo classes fetched successfully",
+            demoClasses,
+        });
+    } catch (error) {
+        return res.json({ success: false, error });
+    }
+};
+
 module.exports = {
     add,
+    get,
 };

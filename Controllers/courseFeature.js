@@ -20,6 +20,23 @@ const add = async (req, res) => {
     }
 };
 
+const get = async (req, res) => {
+    const { courseId } = req.params;
+
+    try {
+        const features = await CourseFeature.find({ courseId });
+
+        return res.json({
+            success: true,
+            message: "Features fetched successfully",
+            features,
+        });
+    } catch (error) {
+        return res.json({ success: false, error });
+    }
+};
+
 module.exports = {
     add,
+    get,
 };

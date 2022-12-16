@@ -36,6 +36,23 @@ const add = async (req, res) => {
     }
 };
 
+const get = async (req, res) => {
+    const { courseId } = req.params;
+
+    try {
+        const liveClasses = await LiveClass.find({ courseId });
+
+        return res.json({
+            success: true,
+            message: "Live classes fetched successfully",
+            liveClasses,
+        });
+    } catch (error) {
+        return res.json({ success: false, error });
+    }
+};
+
 module.exports = {
     add,
+    get,
 };

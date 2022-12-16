@@ -22,22 +22,16 @@ const add = async (req, res) => {
     }
 };
 
-const getAll = async (req, res) => {
-    const { sClass } = req.body;
+const get = async (req, res) => {
+    const { courseId } = req.params;
 
     try {
-        var courses;
-
-        if (sClass) {
-            courses = await Course.find({ sClass });
-        } else {
-            courses = await Course.find({});
-        }
+        const course = await Course.findById(courseId);
 
         return res.json({
             success: true,
-            message: "Courses fetched successfully",
-            courses,
+            message: "Course fetched successfully",
+            course,
         });
     } catch (error) {
         return res.json({ success: false, error });
@@ -46,5 +40,5 @@ const getAll = async (req, res) => {
 
 module.exports = {
     add,
-    getAll,
+    get,
 };
