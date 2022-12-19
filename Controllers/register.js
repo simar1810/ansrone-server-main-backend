@@ -71,7 +71,7 @@ const resendOtp = async (req, res) => {
 
             return res.json({
                 success: true,
-                message: "OTP resent successfully",
+                message: "OTP sent successfully",
             });
         } else {
             return res.json({

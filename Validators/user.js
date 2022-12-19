@@ -18,20 +18,33 @@ const signupValidator = (req, res, next) => {
     next();
 };
 
-const loginValidator = (req, res, next) => {
-    const { gEmail, gMobile, password } = req.body;
+const loginInitValidator = (req, res, next) => {
+    const { mobile } = req.body;
 
-    if (!gEmail && !gMobile) {
+    if (!mobile) {
         return res.json({
             success: false,
-            error: "Guardian email or mobile number is required",
+            error: "Mobile number is required",
         });
     }
 
-    if (!password) {
+    next();
+};
+
+const loginValidator = (req, res, next) => {
+    const { mobile, otp } = req.body;
+
+    if (!mobile) {
         return res.json({
             success: false,
-            error: "Password is required",
+            error: "Mobile number is required",
+        });
+    }
+
+    if (!otp) {
+        return res.json({
+            success: false,
+            error: "OTP is required",
         });
     }
 
@@ -81,6 +94,7 @@ const resetPasswordValidator = (req, res, next) => {
 module.exports = {
     signupValidator,
     loginValidator,
+    loginInitValidator,
     resetPasswordInitValidator,
     resetPasswordValidator,
 };

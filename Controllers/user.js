@@ -60,39 +60,71 @@ const signup = async (req, res) => {
     }
 };
 
-const login = async (req, res) => {
-    const { gEmail, gMobile, password } = req.body;
+const loginInit = async (req, res) => {
+    const { mobile } = req.body;
 
     try {
-        const user = await User.findOne({ $or: [{ gMobile }, { gEmail }] });
+        const user = await User.findOne({ mobile });
 
-        if (user && (await argon2.verify(user.password, password))) {
-            const token = jwtGenerator.generate(user._id);
+        if (user) {
+            const otp = otpGenerator.generate();
 
-            res.cookie(process.env.JWT_KEY, token, {
-                maxAge: process.env.JWT_DURATION * 24 * 60 * 60 * 1000,
-                httpOnly: true,
-                secure: true,
-                sameSite: "none",
-            });
+            await user.updateOne({ otp });
 
             return res.json({
                 success: true,
-                message: "Login successful",
-                user: {
-                    _id: user._id,
-                    sName: user.sName,
-                    gName: user.gName,
-                    gMobile: user.gMobile,
-                    gEmail: user.gEmail,
-                    sClass: user.sClass,
-                },
-                token,
+                message: "OTP sent successfully",
             });
         } else {
             return res.json({
                 success: false,
-                error: "Invalid credentials",
+                error: "Mobile number is not registered",
+            });
+        }
+    } catch (error) {
+        return res.json({ success: false, error });
+    }
+};
+
+const login = async (req, res) => {
+    const { mobile, otp } = req.body;
+
+    try {
+        const user = await User.findOne({ mobile });
+
+        if (user) {
+            if (user.otp == otp) {
+                const token = jwtGenerator.generate(user._id);
+
+                res.cookie(process.env.JWT_KEY, token, {
+                    maxAge: process.env.JWT_DURATION * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "none",
+                });
+
+                return res.json({
+                    success: true,
+                    message: "Login successful",
+                    user: {
+                        _id: user._id,
+                        name: user.name,
+                        mobile: user.mobile,
+                        sClass: user.sClass,
+                        courseType: user.courseType,
+                    },
+                    token,
+                });
+            } else {
+                return res.json({
+                    success: false,
+                    error: "Invalid OTP",
+                });
+            }
+        } else {
+            return res.json({
+                success: false,
+                error: "Mobile number is not registered",
             });
         }
     } catch (error) {
@@ -196,6 +228,7 @@ const resetPassword = async (req, res) => {
 module.exports = {
     signup,
     login,
+    loginInit,
     logout,
     resetPasswordInit,
     resetPassword,
