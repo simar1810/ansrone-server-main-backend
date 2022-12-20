@@ -28,11 +28,18 @@ const get = async (req, res) => {
     try {
         const course = await Course.findById(courseId);
 
-        return res.json({
-            success: true,
-            message: "Course fetched successfully",
-            course,
-        });
+        if (course) {
+            return res.json({
+                success: true,
+                message: "Course fetched successfully",
+                course,
+            });
+        } else {
+            return res.json({
+                success: false,
+                error: "Course not found",
+            });
+        }
     } catch (error) {
         return res.json({ success: false, error });
     }

@@ -18,6 +18,10 @@ const demoClassRoute = require("./Routes/demoClass");
 const liveClassRoute = require("./Routes/liveClass");
 const courseFeatureRoute = require("./Routes/courseFeature");
 const courseSyllabusRoute = require("./Routes/courseSyllabus");
+const cohortRoutes = require("./Routes/cohort");
+const cohortSubjectRoutes = require("./Routes/cohortSubject");
+const cohortTopicRoutes = require("./Routes/cohortTopic");
+const cohortFAQRoutes = require("./Routes/cohortFAQ");
 
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
@@ -27,6 +31,10 @@ app.use("/course/price/live", liveClassRoute);
 app.use("/course/feature", courseFeatureRoute);
 app.use("/course/syllabus", courseSyllabusRoute);
 app.use("/register", registerRoute);
+app.use("/cohort", cohortRoutes);
+app.use("/cohort/subject", cohortSubjectRoutes);
+app.use("/cohort/topic", cohortTopicRoutes);
+app.use("/cohort/faq", cohortFAQRoutes);
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
