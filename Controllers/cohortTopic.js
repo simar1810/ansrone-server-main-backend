@@ -36,7 +36,24 @@ const getByCourse = async (req, res) => {
     }
 };
 
+const get = async (req, res) => {
+    const { topicId } = req.params;
+
+    try {
+        const topic = await CohortTopic.findById(topicId);
+
+        return res.json({
+            success: true,
+            message: "Topic fetched successfully",
+            topic,
+        });
+    } catch (error) {
+        return res.json({ success: false, error });
+    }
+};
+
 module.exports = {
     add,
     getByCourse,
+    get,
 };

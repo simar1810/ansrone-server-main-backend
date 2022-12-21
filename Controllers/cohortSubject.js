@@ -25,7 +25,7 @@ const add = async (req, res) => {
     }
 };
 
-const get = async (req, res) => {
+const getByCourse = async (req, res) => {
     const { courseId } = req.params;
 
     try {
@@ -41,7 +41,24 @@ const get = async (req, res) => {
     }
 };
 
+const get = async (req, res) => {
+    const { subjectId } = req.params;
+
+    try {
+        const subject = await CohortSubject.findById(subjectId);
+
+        return res.json({
+            success: true,
+            message: "Subject fetched successfully",
+            subject,
+        });
+    } catch (error) {
+        return res.json({ success: false, error });
+    }
+};
+
 module.exports = {
     add,
+    getByCourse,
     get,
 };
