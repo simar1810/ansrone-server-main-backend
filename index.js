@@ -38,5 +38,5 @@ app.use("/cohort/faq", cohortFAQRoutes);
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
-    mongooseConnect("mongodb://localhost:27017/ansrone");
+    mongooseConnect(process.env.MONGODB_URL);
 });
