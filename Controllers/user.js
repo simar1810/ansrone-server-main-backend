@@ -8,9 +8,9 @@ const otpMailer = require("../Utils/otpMailer");
 const signup = async (req, res) => {
     const { registerationId, otp } = req.body;
 
-    const user = await Register.findById(registerationId);
-
     try {
+        const user = await Register.findById(registerationId);
+
         if (!user) {
             return res.json({
                 success: false,
@@ -146,6 +146,7 @@ const logout = async (req, res) => {
     });
 };
 
+// Note: not needed anymore
 const resetPasswordInit = async (req, res) => {
     const { gEmail, gMobile } = req.body;
 
@@ -182,6 +183,7 @@ const resetPasswordInit = async (req, res) => {
     }
 };
 
+// Note: not needed anymore
 const resetPassword = async (req, res) => {
     const { gEmail, gMobile, otp, password } = req.body;
 

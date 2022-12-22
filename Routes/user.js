@@ -21,11 +21,11 @@ router.post("/signup/local", signupValidator, signup);
 router.post("/login/local/init", loginInitValidator, loginInit);
 router.post("/login/local", loginValidator, login);
 router.post("/logout/local", userAuth, logout);
-router.post(
-    "/reset/password/init",
-    resetPasswordInitValidator,
-    resetPasswordInit
-);
-router.post("/reset/password", resetPasswordValidator, resetPassword);
+// router.post(
+//     "/reset/password/init",
+//     resetPasswordInitValidator,
+//     resetPasswordInit
+// );
+// router.post("/reset/password", resetPasswordValidator, resetPassword);
 
 module.exports = router;
