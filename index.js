@@ -22,6 +22,8 @@ const cohortRoutes = require("./Routes/cohort");
 const cohortSubjectRoutes = require("./Routes/cohortSubject");
 const cohortTopicRoutes = require("./Routes/cohortTopic");
 const cohortFAQRoutes = require("./Routes/cohortFAQ");
+const videoRoutes = require("./Routes/video");
+const lastWatchedRoutes = require("./Routes/lastWatched");
 
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
@@ -35,6 +37,8 @@ app.use("/cohort", cohortRoutes);
 app.use("/cohort/subject", cohortSubjectRoutes);
 app.use("/cohort/topic", cohortTopicRoutes);
 app.use("/cohort/faq", cohortFAQRoutes);
+app.use("/video", videoRoutes);
+app.use("/last-watched", lastWatchedRoutes);
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
