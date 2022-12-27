@@ -24,6 +24,7 @@ const cohortTopicRoutes = require("./Routes/cohortTopic");
 const cohortFAQRoutes = require("./Routes/cohortFAQ");
 const videoRoutes = require("./Routes/video");
 const lastWatchedRoutes = require("./Routes/lastWatched");
+const mobileRoutes = require('./Routes/mobileAuth');
 
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
@@ -39,8 +40,10 @@ app.use("/cohort/topic", cohortTopicRoutes);
 app.use("/cohort/faq", cohortFAQRoutes);
 app.use("/video", videoRoutes);
 app.use("/last-watched", lastWatchedRoutes);
+app.use("/mobileAuth", mobileRoutes);
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
     mongooseConnect(process.env.MONGODB_URL);
+    console.log("Connected to MongoDB on port " + PORT);
 });
