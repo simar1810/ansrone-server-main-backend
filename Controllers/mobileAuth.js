@@ -135,11 +135,7 @@ const step2 = async (req, res) => {
                     return res.json({
                         success: true,
                         message: "Account created",
-                        user: {
-                            _id: sUser._id,
-                            mobile: sUser.mobile,
-                            courseType: sUser.courseType,
-                        },
+                        body: user,
                         // token,
                     });
                 } else {
