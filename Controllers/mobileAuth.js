@@ -79,7 +79,7 @@ const step2 = async (req, res) => {
             // return body
 
             if (user.otp == otp) {
-                // const token = jwtGenerator.generate(user._id);
+                const token = jwtGenerator.generate(user._id);
 
                 res.cookie(process.env.JWT_KEY, token, {
                     maxAge: process.env.JWT_DURATION * 24 * 60 * 60 * 1000,
@@ -156,7 +156,7 @@ const step2 = async (req, res) => {
 };
 
 const step3 = async (req, res) => {
-    const { name, sClass, board, registerationId, parentsMobile } = req.body;
+    const { name, sClass, board, registerationId, parentsMobile, parentsName } = req.body;
 
 
     try {
@@ -165,7 +165,7 @@ const step3 = async (req, res) => {
         if (user) {
             const token = jwtGenerator.generate(user._id);
 
-            await User.updateOne({ _id: registerationId }, { $set: { name, sClass, board, parentsMobile } })
+            await User.updateOne({ _id: registerationId }, { $set: { name, sClass, board, parentsMobile, parentsName } })
 
             return res.json({
                 success: true,
