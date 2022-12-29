@@ -25,6 +25,8 @@ const cohortFAQRoutes = require("./Routes/cohortFAQ");
 const videoRoutes = require("./Routes/video");
 const lastWatchedRoutes = require("./Routes/lastWatched");
 const mobileRoutes = require('./Routes/mobileAuth');
+const home = require('./Routes/home');
+
 
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
@@ -41,6 +43,8 @@ app.use("/cohort/faq", cohortFAQRoutes);
 app.use("/video", videoRoutes);
 app.use("/last-watched", lastWatchedRoutes);
 app.use("/mobileAuth", mobileRoutes);
+app.use("/home", home);
+
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {

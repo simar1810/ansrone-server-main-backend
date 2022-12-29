@@ -52,6 +52,7 @@ const step1 = async (req, res) => {
                 });
 
                 return res.json({
+                    body: user,
                     success: true,
                     message: "User entry added successfully to Register DB" + "bool = " + bool,
                     bool: bool,
