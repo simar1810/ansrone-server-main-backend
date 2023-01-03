@@ -10,7 +10,7 @@ app.use(cors({ credentials: true, origin: true }));
 app.use(cookieParser());
 dotenvConfig();
 
-const userRoutes = require("./Routes/user");
+const userRoutes = require("./Routes/user" );
 const adminRoutes = require("./Routes/admin");
 const courseRoutes = require("./Routes/course");
 const registerRoute = require("./Routes/register");
@@ -26,6 +26,7 @@ const videoRoutes = require("./Routes/video");
 const lastWatchedRoutes = require("./Routes/lastWatched");
 const mobileRoutes = require('./Routes/mobileAuth');
 const home = require('./Routes/home');
+const blogsRoutes = require("./Routes/blogs");
 
 
 app.use("/user", userRoutes);
@@ -44,7 +45,7 @@ app.use("/video", videoRoutes);
 app.use("/last-watched", lastWatchedRoutes);
 app.use("/mobileAuth", mobileRoutes);
 app.use("/home", home);
-
+app.use("/blogs",blogsRoutes);
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
