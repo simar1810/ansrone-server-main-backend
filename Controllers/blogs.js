@@ -3,7 +3,7 @@ const blogs = require('../Models/blogs');
 
 const postblogs = async  (req,res)=>{
     const dbmessage = req.body
-    blogs.create(dbmessage,(err,data) =>{
+   await blogs.create(dbmessage,(err,data) =>{
       if(err){
         res.send(err);
       }else {
@@ -15,7 +15,7 @@ const postblogs = async  (req,res)=>{
 
 
  const getblogs =async (req,res)=>{
-    blogs.find({},(err,blogs)=>{
+  await blogs.find({},(err,blogs)=>{
     if(err){
       res.send(err);
     }
